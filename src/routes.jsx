@@ -1,5 +1,6 @@
 import App from "./components/App"
-import LogInForm from "./components/loginForm"
+import LogInForm from "./components/LoginForm"
+import HomePage from "./components/HomePage"
 
  const routes = [
     {
@@ -9,6 +10,16 @@ import LogInForm from "./components/loginForm"
             {
                 path: "/",
                 element: <LogInForm />
+            }
+        ]
+    },
+    {
+        path: "/home",
+        element: <App />,
+        children: [
+            {
+                path: "/home",
+                element: <HomePage />
             }
         ]
     }

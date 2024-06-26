@@ -12,7 +12,9 @@ function App() {
       <p>Blog - CMS</p>
       {user && <NavBar user={user} setUser={setUser} />}
     </nav>
-    <Outlet context={[user, setUser]}/>
+    <main>
+      <Outlet context={[user, setUser]}/>
+    </main>
     </>
   )
 }

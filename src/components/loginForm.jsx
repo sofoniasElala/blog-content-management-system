@@ -1,8 +1,14 @@
-import { useOutletContext, redirect } from "react-router-dom";
+import { useOutletContext, useNavigate} from "react-router-dom";
 import { handleAuth } from "../utils";
 import { useState } from "react";
 
-async function handleSubmission(user, setUser, loginFormData, setInputs){
+
+export default function LogInForm() {
+  const [user, setUser] = useOutletContext();
+  const [inputs, setInputs] = useState(null);
+  const navigate = useNavigate();
+
+  async function handleSubmission(user, setUser, loginFormData, setInputs){
     const loginData = {
         username: loginFormData.get('username'),
         password: loginFormData.get('password')
@@ -11,7 +17,7 @@ async function handleSubmission(user, setUser, loginFormData, setInputs){
 
     //console.log(errorData)
     if(errorData == undefined) {
-        redirect('/home');
+        navigate('/home');
     } else {
         loginData.errorMessage = errorData.message;
         setInputs(loginData);
@@ -19,12 +25,7 @@ async function handleSubmission(user, setUser, loginFormData, setInputs){
     
 
 }
-
-export default function LogInForm() {
-  const [user, setUser] = useOutletContext();
-  const [inputs, setInputs] = useState(null);
   return (
-    <main>
       <form
         onSubmit={(e) =>{
             e.preventDefault();
@@ -39,6 +40,5 @@ export default function LogInForm() {
          {inputs && <p>{inputs.errorMessage}</p>}
         <button type="submit">Log in</button>
       </form>
-    </main>
   );
 }

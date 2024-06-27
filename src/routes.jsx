@@ -1,6 +1,17 @@
 import App from "./components/App"
 import LogInForm from "./components/LoginForm"
 import HomePage from "./components/HomePage"
+import CreatePost from "./components/CreatePost"
+import CheckAuthentication from "./components/CheckAuthentication"
+import { redirect } from "react-router-dom"
+
+const loggedInUserReRouter = () => {
+    const localData = localStorage.getItem('blog-user');
+    if (localData) {
+      return redirect("/home");
+    }
+    return null;
+  };
 
  const routes = [
     {
@@ -9,20 +20,25 @@ import HomePage from "./components/HomePage"
         children: [
             {
                 path: "/",
+                loader: loggedInUserReRouter,
                 element: <LogInForm />
+            },
+            {
+                path: "/home",
+                element: <CheckAuthentication />,
+                children: [
+                    {
+                        path: "/home",
+                        element: <HomePage />
+                    },
+                    {
+                        path: "posts/create",
+                        element: <CreatePost />
+                    }
+                ]
             }
         ]
     },
-    {
-        path: "/home",
-        element: <App />,
-        children: [
-            {
-                path: "/home",
-                element: <HomePage />
-            }
-        ]
-    }
 ]
 
 export default routes

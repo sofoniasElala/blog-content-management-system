@@ -10,7 +10,7 @@ function App() {
     <>
     <nav>
       <p>Blog - CMS</p>
-      {user && <NavBar user={user} setUser={setUser} />}
+      {(user || localStorage.getItem('blog-user')) && <NavBar user={user} setUser={setUser} />}
     </nav>
     <main>
       <Outlet context={[user, setUser]}/>

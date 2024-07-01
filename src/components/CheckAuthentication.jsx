@@ -5,7 +5,7 @@ export default function CheckAuthentication() {
     const [user] = useOutletContext();
     const date = new Date();
 
-    if(user || (localData && localData.expires >= date.getTime())) {
+    if(user || (localData && Date.parse(localData.expires) >= date.getTime())) {
         return <Outlet />;
     } else {
         localStorage.removeItem('blog-user');

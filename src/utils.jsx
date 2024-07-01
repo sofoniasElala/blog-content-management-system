@@ -8,7 +8,7 @@ export async function handleAuth(user, setUser, loginData = null){
                 body: JSON.stringify(loginData) // check formData is  passed in
             });
             const data = await response.json();
-            if (response.status === 200) { setUserLocalStorage(data.user.username, true); setUser(data.user); }
+            if (response.status === 200) { setUserLocalStorage(data.token, true); setUser(data.user); }
             else return data;
         } else {
             response = await fetch("https://sofonias-elala-blog-rest-api.glitch.me/log-out", { 
@@ -23,6 +23,23 @@ export async function handleAuth(user, setUser, loginData = null){
     
 }
 
+export async function createPostDB(postData){
+    try {
+    const response = await fetch("https://sofonias-elala-blog-rest-api.glitch.me/posts", {
+        method: 'POST',
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": JSON.parse(localStorage.getItem('blog-user')).jwt,
+         },
+        body: JSON.stringify(postData)
+    });
+    const data = await response.json();
+    return data;
+   } catch(error){
+    alert(error) //handle the error later
+   }
+}
+
 export async function getAllTags(){
     try {
         const response = await fetch("https://sofonias-elala-blog-rest-api.glitch.me/tags");
@@ -34,11 +51,13 @@ export async function getAllTags(){
     
 }
 
-function setUserLocalStorage(username = null, set){
+
+
+function setUserLocalStorage(token = null, set){
     const twoWeeksExpiration = new Date();
     twoWeeksExpiration.setDate(twoWeeksExpiration.getDate() + 14);
     const data = {
-        user: username,
+        jwt: token,
         expires: twoWeeksExpiration
     }
 

@@ -4,16 +4,16 @@ import '../styles/App.css';
 import NavBar from './Navbar';
 
 function App() {
-  const [user, setUser] = useState(null);
+  const [justLoggedIn, setJustLoggedIn] = useState({value: false});
 
   return (
     <>
     <nav>
       <p>Blog - CMS</p>
-      {(user || localStorage.getItem('blog-user')) && <NavBar user={user} setUser={setUser} />}
+      {(justLoggedIn.value || localStorage.getItem('blog-user')) && <NavBar justLoggedIn={justLoggedIn} setJustLoggedIn={setJustLoggedIn}/>}
     </nav>
     <main>
-      <Outlet context={[user, setUser]}/>
+      <Outlet context={[justLoggedIn, setJustLoggedIn]}/>
     </main>
     </>
   )

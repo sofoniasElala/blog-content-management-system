@@ -4,16 +4,16 @@ import { useState } from "react";
 
 
 export default function LogInForm() {
-  const [user, setUser] = useOutletContext();
+  const [justLoggedIn, setJustLoggedIn] = useOutletContext();
   const [inputs, setInputs] = useState(null);
   const navigate = useNavigate();
 
-  async function handleSubmission(user, setUser, loginFormData, setInputs){
+  async function handleSubmission(loginFormData, setInputs){
     const loginData = {
         username: loginFormData.get('username'),
         password: loginFormData.get('password')
     }
-    const errorData = await handleAuth(user, setUser, loginData);
+    const errorData = await handleAuth(justLoggedIn, setJustLoggedIn, loginData);
 
     //console.log(errorData)
     if(errorData == undefined) {
@@ -29,7 +29,7 @@ export default function LogInForm() {
       <form
         onSubmit={(e) =>{
             e.preventDefault();
-          handleSubmission(user, setUser, new FormData(e.currentTarget), setInputs)
+          handleSubmission(new FormData(e.currentTarget), setInputs)
         }
         }
       >

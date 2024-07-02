@@ -1,21 +1,18 @@
-export async function handleAuth(user, setUser, loginData = null){
+export async function handleAuth(justLoggedIn, setJustLoggedIn, loginData = null){
     let response;
     try {
-        if(!user){
+        if(!localStorage.getItem('blog-user')){
             response = await fetch("https://sofonias-elala-blog-rest-api.glitch.me/log-in", { 
                 method: 'POST',
                 headers: {"Content-Type": "application/json" },
                 body: JSON.stringify(loginData) // check formData is  passed in
             });
             const data = await response.json();
-            if (response.status === 200) { setUserLocalStorage(data.token, true); setUser(data.user); }
+            if (response.status === 200) { setUserLocalStorage(true, data.token); setJustLoggedIn({...justLoggedIn, value: true}); }
             else return data;
         } else {
-            response = await fetch("https://sofonias-elala-blog-rest-api.glitch.me/log-out", { 
-                method: 'POST',
-                headers: {"Content-Type": "application/json" },
-            });
-            if (response.status === 200) {setUserLocalStorage(false); setUser(null); }
+            setUserLocalStorage(false);
+            setJustLoggedIn({...justLoggedIn, value: false});
         } 
    } catch(error) {
     alert(error); // handle the error later
@@ -40,6 +37,16 @@ export async function createPostDB(postData){
    }
 }
 
+export async function getAllPosts(){
+    try {
+        const response = await fetch("https://sofonias-elala-blog-rest-api.glitch.me/");
+        const data = await response.json();
+        return data.allPosts;
+    } catch(error) {
+        alert(error) //  handle the error later
+    }
+}
+
 export async function getAllTags(){
     try {
         const response = await fetch("https://sofonias-elala-blog-rest-api.glitch.me/tags");
@@ -51,9 +58,13 @@ export async function getAllTags(){
     
 }
 
+export function capitalizeName(name){
+    const splitNameAndLowerCase = name.toLowerCase().split(' ');
+   const capitalizedNamesArray = splitNameAndLowerCase.map((name) =>  name[0].toUpperCase() + name.slice(1));
+    return capitalizedNamesArray.join(' ');
+}
 
-
-function setUserLocalStorage(token = null, set){
+function setUserLocalStorage(set, token = null){
     const twoWeeksExpiration = new Date();
     twoWeeksExpiration.setDate(twoWeeksExpiration.getDate() + 14);
     const data = {

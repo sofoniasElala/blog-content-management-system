@@ -58,6 +58,20 @@ export async function getAllTags(){
     
 }
 
+export async function deletePost(postId){
+    try {
+         await fetch(`https://sofonias-elala-blog-rest-api.glitch.me/posts/${postId}`, {
+            method: 'DELETE',
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": JSON.parse(localStorage.getItem('blog-user')).jwt,
+             },
+        });
+     } catch(error) {
+        alert(error) //  handle the error later
+    }
+}
+
 export function capitalizeName(name){
     const splitNameAndLowerCase = name.toLowerCase().split(' ');
    const capitalizedNamesArray = splitNameAndLowerCase.map((name) =>  name[0].toUpperCase() + name.slice(1));

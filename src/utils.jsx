@@ -39,7 +39,12 @@ export async function createPostDB(postData){
 
 export async function getAllPosts(){
     try {
-        const response = await fetch("https://sofonias-elala-blog-rest-api.glitch.me/");
+        const response = await fetch("https://sofonias-elala-blog-rest-api.glitch.me/all", {
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": JSON.parse(localStorage.getItem('blog-user')).jwt,
+             }
+        });
         const data = await response.json();
         return data.allPosts;
     } catch(error) {
@@ -58,9 +63,23 @@ export async function getAllTags(){
     
 }
 
-export async function deletePost(postId){
+export async function deleteComment(postId, commentId){
     try {
-         await fetch(`https://sofonias-elala-blog-rest-api.glitch.me/posts/${postId}`, {
+        await fetch(`https://sofonias-elala-blog-rest-api.glitch.me/posts/${postId}/comments/${commentId}`, {
+            method: 'DELETE',
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": JSON.parse(localStorage.getItem('blog-user')).jwt,
+             }
+        });
+    } catch(error) {
+        alert(error) //  handle the error later
+     }
+}
+
+export async function deletePost(id){
+    try {
+         await fetch(`https://sofonias-elala-blog-rest-api.glitch.me/posts/${id}`, {
             method: 'DELETE',
             headers: {
                 "Content-Type": "application/json",
@@ -68,6 +87,16 @@ export async function deletePost(postId){
              },
         });
      } catch(error) {
+        alert(error) //  handle the error later
+    }
+}
+
+export async function getSpecificPost(id){
+    try {
+        const response = await fetch(`https://sofonias-elala-blog-rest-api.glitch.me/posts/${id}`);
+        const data = await response.json();
+        return data;
+    } catch(error) {
         alert(error) //  handle the error later
     }
 }

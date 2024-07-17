@@ -4,6 +4,7 @@ import HomePage from "./components/HomePage"
 import CreatePost from "./components/CreatePost"
 import CheckAuthentication from "./components/CheckAuthentication"
 import AllPosts from "./components/AllPosts"
+import EditPost from "./components/EditPost"
 import { redirect } from "react-router-dom"
 
 const loggedInUserReRouter = () => {
@@ -33,12 +34,16 @@ const loggedInUserReRouter = () => {
                         element: <HomePage />
                     },
                     {
-                        path: "posts/",
+                        path: "posts",
                         element: <AllPosts />
                     },
                     {
                         path: "posts/create",
                         element: <CreatePost />
+                    },
+                    {
+                        path: "posts/:postId/edit",
+                        element: <EditPost />
                     }
                 ]
             }

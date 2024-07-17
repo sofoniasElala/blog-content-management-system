@@ -1,5 +1,5 @@
-import { useParams } from "react-router-dom";
-import { getSpecificPost, getAllTags, deleteComment } from "../utils";
+import { useParams, useNavigate } from "react-router-dom";
+import { getSpecificPost, getAllTags, deleteComment, updatePost} from "../utils";
 import { useEffect, useState } from "react";
 import { DateTime } from "luxon";
 
@@ -8,7 +8,7 @@ function getFormattedDate(isoDate){
     const commentDate = DateTime.fromISO(isoDate);
     const timeDiff = today.diff(commentDate, ['months', 'days', 'hours', 'minutes']).toObject();
     for(const time in timeDiff ){
-        if(timeDiff[time] > 0) return `${timeDiff[time]} ${time} ago`;
+        if(timeDiff[time] > 0) return `${timeDiff[time]} ${timeDiff[time] > 1 ? time : time.slice(0, time.length -1)} ago`;
     }
     return `less than a minute ago`;
   }
@@ -19,6 +19,7 @@ export default function EditPost() {
   const [postToEdit, setPostToEdit] = useState({});
   const [tags, setTags] = useState([]);
   const { postId } = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function getPost() {
@@ -37,13 +38,24 @@ export default function EditPost() {
     setPostToEdit({...postToEdit, allCommentsOnPost: postToEdit.allCommentsOnPost.filter((comment) => comment._id !== commentId)})
   }
 
+  async function handleSubmission(newPostFormData){
+    const postData = Object.fromEntries(newPostFormData);
+    postData.date = new Date();
+
+   await updatePost(postData, postToEdit.post._id); //TODO: navigate to the post + maybe dialog box to show submission success
+   navigate('/home/posts');
+}
 
   if (tags.length <= 0) return <p>Loading...</p>;
   else
     return (
       <>
         <h2>Edit Post</h2>
-        <form className="edit-form">
+        <form className="edit-form" onSubmit={(e) => {
+            e.preventDefault();
+            handleSubmission(new FormData(e.currentTarget));
+
+        }}>
           <label className="title">
             {"Title: "}
             <input
@@ -122,7 +134,6 @@ export default function EditPost() {
             <h4>{comment.author.username} • {getFormattedDate(comment.date)}</h4>
             <p>{comment.text}</p>
             <div className="comment-buttons">
-                <button onClick={() => null} >Reply</button>
                 <button onClick={() => deleteCommentClick(comment._id)} >Delete</button>
             </div>
             </div>

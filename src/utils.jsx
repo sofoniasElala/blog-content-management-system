@@ -77,6 +77,23 @@ export async function deleteComment(postId, commentId){
      }
 }
 
+export async function updatePost(postData, id) {
+    try {
+       const response = await fetch(`https://sofonias-elala-blog-rest-api.glitch.me/posts/${id}`, {
+           method: 'PUT',
+           headers: {
+               "Content-Type": "application/json",
+               "Authorization": JSON.parse(localStorage.getItem('blog-user')).jwt,
+            },
+           body: JSON.stringify(postData)
+       });
+       const data = await response.json();
+       return data;
+    } catch(error) {
+       alert(error) //  handle the error later
+   }
+}
+
 export async function deletePost(id){
     try {
          await fetch(`https://sofonias-elala-blog-rest-api.glitch.me/posts/${id}`, {

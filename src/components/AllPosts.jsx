@@ -1,16 +1,22 @@
 import { useEffect, useState, useRef } from "react";
-import { getAllPosts, capitalizeName } from "../utils";
+import { getAllPosts, capitalizeName, notificationPopUp } from "../utils";
 import { DateTime } from "luxon";
 import { useNavigate, Link } from "react-router-dom";
 import DialogBox from "./DialogBox";
 
 export default function AllPosts() {
   const [posts, setPosts] = useState([]);
+  const [postToDeleteIndex, setPostToDeleteIndex] = useState(0);
   const dialogRef = useRef();
   const navigate = useNavigate();
   useEffect(() => {
     async function getPosts() {
-      const postsArray = await getAllPosts();
+      const getPostsApiCall = getAllPosts();
+      const postsArray = await notificationPopUp(
+        getPostsApiCall,
+        { pending: "Retrieving posts...", success: "Posts loaded" },
+        3000
+      );
       setPosts(postsArray);
     }
     getPosts();
@@ -20,12 +26,15 @@ export default function AllPosts() {
     navigate(`${postId}/edit`);
   }
 
-  function handleModal(open, postId = null, postDeleted = false) {
+  function handleModal(open, postIndex = null, postDeleted = false) {
     if (open) dialogRef.current.close();
-    else dialogRef.current.showModal();
+    else {
+      setPostToDeleteIndex(postIndex);
+      dialogRef.current.showModal();
+    }
 
     if (postDeleted) {
-      const filterPosts = posts.filter((post) => post._id !== postId);
+      const filterPosts = posts.filter((post, index) => index !== postIndex);
       setPosts(filterPosts);
     }
   }
@@ -34,6 +43,17 @@ export default function AllPosts() {
   else
     return (
       <>
+        <DialogBox
+          title={posts[postToDeleteIndex].title}
+          name={capitalizeName(posts[postToDeleteIndex].authorName)}
+          post={posts[postToDeleteIndex]._id}
+          postIndex={postToDeleteIndex}
+          handleModal={handleModal}
+          date={DateTime.fromISO(posts[postToDeleteIndex].date).toFormat(
+            "MMMM dd, yyyy"
+          )}
+          dialogRef={dialogRef}
+        />
         <aside>
           <Link to="create">
             <p>
@@ -44,7 +64,7 @@ export default function AllPosts() {
         <article className="posts-container">
           {" "}
           <h2>All Posts</h2>
-          {posts.map((post) => {
+          {posts.map((post, index) => {
             const formattedDate = DateTime.fromISO(post.date).toFormat(
               "MMMM dd, yyyy"
             );
@@ -60,16 +80,10 @@ export default function AllPosts() {
                     <button onClick={() => handleArticleEditClick(post._id)}>
                       Edit
                     </button>
-                    <button onClick={() => handleModal(false)}>Delete</button>
+                    <button onClick={() => handleModal(false, index)}>
+                      Delete
+                    </button>
                   </div>
-                  <DialogBox
-                    title={post.title}
-                    name={formattedName}
-                    post={post._id}
-                    handleModal={handleModal}
-                    date={formattedDate}
-                    dialogRef={dialogRef}
-                  />
                 </article>
               </>
             );

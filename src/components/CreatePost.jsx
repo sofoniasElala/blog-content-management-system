@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { getAllTags, createPostDB } from "../utils";
+import { getAllTags, createPostDB, notificationPopUp } from "../utils";
 
 export default  function CreatePost(){
     const [tags, setTags] = useState([]);
@@ -17,7 +17,8 @@ export default  function CreatePost(){
         const postData = Object.fromEntries(newPostFormData);
         postData.date = new Date();
 
-       const newPost = await createPostDB(postData); //TODO: navigate to the post + maybe dialog box to show submission success
+       const newPostApiCall = createPostDB(postData); //TODO: navigate to the post
+       const newPost = await notificationPopUp(newPostApiCall, {pending: 'Creating post...', success: 'Post created'}, 3000);
        setSubmitted({status: true, id: newPost.id});
     }
 

@@ -1,3 +1,5 @@
+import { toast } from "react-toastify";
+
 export async function handleAuth(justLoggedIn, setJustLoggedIn, loginData = null){
     let response;
     try {
@@ -5,17 +7,17 @@ export async function handleAuth(justLoggedIn, setJustLoggedIn, loginData = null
             response = await fetch("https://sofonias-elala-blog-rest-api.glitch.me/log-in", { 
                 method: 'POST',
                 headers: {"Content-Type": "application/json" },
-                body: JSON.stringify(loginData) // check formData is  passed in
+                body: JSON.stringify(loginData)
             });
             const data = await response.json();
-            if (response.status === 200) { setUserLocalStorage(true, data.token); setJustLoggedIn({...justLoggedIn, value: true}); }
+            if (response.status === 200) { setUserLocalStorage(true, data.token); setJustLoggedIn({...justLoggedIn, value: true}); return data;}
             else return data;
         } else {
             setUserLocalStorage(false);
             setJustLoggedIn({...justLoggedIn, value: false});
         } 
    } catch(error) {
-    alert(error); // handle the error later
+    throw {fetchError: true, error: error}; 
    }
     
 }
@@ -33,7 +35,7 @@ export async function createPostDB(postData){
     const data = await response.json();
     return data;
    } catch(error){
-    alert(error) //handle the error later
+    throw {fetchError: true, error: error}; 
    }
 }
 
@@ -48,7 +50,7 @@ export async function getAllPosts(){
         const data = await response.json();
         return data.allPosts;
     } catch(error) {
-        alert(error) //  handle the error later
+        throw {fetchError: true, error: error}; 
     }
 }
 
@@ -58,22 +60,24 @@ export async function getAllTags(){
         const data = await response.json();
         return data.allTags;
     } catch(error) {
-        alert(error) //  handle the error later
+        throw {fetchError: true, error: error}; 
     }
     
 }
 
 export async function deleteComment(postId, commentId){
     try {
-        await fetch(`https://sofonias-elala-blog-rest-api.glitch.me/posts/${postId}/comments/${commentId}`, {
+       const response = await fetch(`https://sofonias-elala-blog-rest-api.glitch.me/posts/${postId}/comments/${commentId}`, {
             method: 'DELETE',
             headers: {
                 "Content-Type": "application/json",
                 "Authorization": JSON.parse(localStorage.getItem('blog-user')).jwt,
              }
         });
+        const data = await response.json();
+        return data;
     } catch(error) {
-        alert(error) //  handle the error later
+        throw {fetchError: true, error: error}; 
      }
 }
 
@@ -90,21 +94,23 @@ export async function updatePost(postData, id) {
        const data = await response.json();
        return data;
     } catch(error) {
-       alert(error) //  handle the error later
+        throw {fetchError: true, error: error}; 
    }
 }
 
 export async function deletePost(id){
     try {
-         await fetch(`https://sofonias-elala-blog-rest-api.glitch.me/posts/${id}`, {
+      const response =   await fetch(`https://sofonias-elala-blog-rest-api.glitch.me/posts/${id}`, {
             method: 'DELETE',
             headers: {
                 "Content-Type": "application/json",
                 "Authorization": JSON.parse(localStorage.getItem('blog-user')).jwt,
              },
         });
+        const data = await response.json();
+        return data;
      } catch(error) {
-        alert(error) //  handle the error later
+        throw {fetchError: true, error: error}; 
     }
 }
 
@@ -114,7 +120,7 @@ export async function getSpecificPost(id){
         const data = await response.json();
         return data;
     } catch(error) {
-        alert(error) //  handle the error later
+        throw {fetchError: true, error: error}; 
     }
 }
 
@@ -134,4 +140,28 @@ function setUserLocalStorage(set, token = null){
 
     if(set) localStorage.setItem('blog-user', JSON.stringify(data));
     else localStorage.removeItem('blog-user')
+}
+
+export async function notificationPopUp(apiCall, popUpMessage, timeLength){
+    return await toast.promise(apiCall, {
+        pending: popUpMessage.pending,
+        success: {
+          render({data}){
+            if(data && data.success == false) throw new Error (data.message)
+            else return popUpMessage.success
+          }
+        },
+        error: {
+          render({data}){
+            let popUpMessage = data.message;
+            if(data.error) {
+            if(data.error.name === 'TypeError') popUpMessage = 'Network error. check connection and try again.'
+            else if(data.error.name === 'AbortError') popUpMessage = 'The request was cancelled.'
+            }
+            return `${popUpMessage}`
+          }
+        }
+      }, {
+        autoClose: timeLength
+      });
 }

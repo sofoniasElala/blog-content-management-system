@@ -1,5 +1,5 @@
 import { useParams, useNavigate } from "react-router-dom";
-import { getSpecificPost, getAllTags, deleteComment, updatePost} from "../utils";
+import { getSpecificPost, getAllTags, deleteComment, updatePost, notificationPopUp} from "../utils";
 import { useEffect, useState } from "react";
 import { DateTime } from "luxon";
 
@@ -23,10 +23,11 @@ export default function EditPost() {
 
   useEffect(() => {
     async function getPost() {
-      const postAndTags = await Promise.all([
+      const postAndTagsApiCall =  Promise.all([
         getSpecificPost(postId),
         getAllTags(),
       ]);
+      const postAndTags = await notificationPopUp(postAndTagsApiCall, {pending: 'Loading post...', success: 'Post loaded'}, 3000);
       setPostToEdit(postAndTags[0]);
       setTags(postAndTags[1]);
     }
@@ -34,7 +35,8 @@ export default function EditPost() {
   }, [postId]);
 
   async function deleteCommentClick(commentId){
-    await deleteComment(postToEdit.post._id, commentId);
+    const deleteCommentApiCall =  deleteComment(postToEdit.post._id, commentId);
+    await notificationPopUp(deleteCommentApiCall, {pending: 'Deleting comment...', success: 'Comment deleted'}, 3000);
     setPostToEdit({...postToEdit, allCommentsOnPost: postToEdit.allCommentsOnPost.filter((comment) => comment._id !== commentId)})
   }
 
@@ -42,7 +44,8 @@ export default function EditPost() {
     const postData = Object.fromEntries(newPostFormData);
     postData.date = new Date();
 
-   await updatePost(postData, postToEdit.post._id); //TODO: navigate to the post + maybe dialog box to show submission success
+   const updatePostApiCall = updatePost(postData, postToEdit.post._id); //TODO: navigate to the post + maybe dialog box to show submission success
+   await notificationPopUp(updatePostApiCall, {pending: 'Updating post...', success: 'Post updated'}, 3000);
    navigate('/home/posts');
 }
 

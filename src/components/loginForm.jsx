@@ -1,6 +1,7 @@
 import { useOutletContext, useNavigate} from "react-router-dom";
-import { handleAuth } from "../utils";
+import { handleAuth, notificationPopUp } from "../utils";
 import { useState } from "react";
+
 
 
 export default function LogInForm() {
@@ -13,10 +14,11 @@ export default function LogInForm() {
         username: loginFormData.get('username'),
         password: loginFormData.get('password')
     }
-    const errorData = await handleAuth(justLoggedIn, setJustLoggedIn, loginData);
+    const logInApiCall = handleAuth(justLoggedIn, setJustLoggedIn, loginData);
+    const errorData = await notificationPopUp(logInApiCall, {pending: 'Logging in...', success: 'Successful log in'}, 3000);
 
-    //console.log(errorData)
-    if(errorData == undefined) {
+    
+    if(errorData.success == true) {
         navigate('/home');
     } else {
         loginData.errorMessage = errorData.message;

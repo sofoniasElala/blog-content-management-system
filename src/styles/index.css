@@ -4,11 +4,9 @@
 }
 
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
   font-family: Teko;
-  --toastify-font-family: Teko;
 
   color: rgba(0, 0, 0, 0.87);
   background-color: #ffffff;
@@ -17,6 +15,11 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.Toastify__toast-body { 
+  font-family: Teko; 
+  font-size: large;
 }
 
 nav > p {

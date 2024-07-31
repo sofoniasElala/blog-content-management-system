@@ -11,8 +11,9 @@ function App() {
   return (
     <>
     <nav>
-      <p>Blog - CMS</p>
+      <p>My Blog - <span>Content Management System</span></p>
       {(justLoggedIn.value || localStorage.getItem('blog-user')) && <NavBar justLoggedIn={justLoggedIn} setJustLoggedIn={setJustLoggedIn}/>}
+      <hr />
     </nav>
     <ToastContainer position='top-center' transition={Slide} theme='dark'/>
     <main>

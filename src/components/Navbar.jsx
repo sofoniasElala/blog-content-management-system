@@ -4,10 +4,10 @@ import { handleAuth } from '../utils';
 
 
 export default function NavBar({ justLoggedIn, setJustLoggedIn }) {
-    return (<>
+    return (<div className='nav-links'>
     <NavLink to="/home">Home</NavLink>
     <button onClick={ () =>  handleAuth(justLoggedIn, setJustLoggedIn, false) } >Log out</button>
-    </>)
+    </div>)
 }
 
 NavBar.propTypes = {

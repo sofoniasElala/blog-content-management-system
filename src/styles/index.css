@@ -7,7 +7,7 @@
   line-height: 1.5;
   font-weight: 400;
   font-family: Teko;
-
+  font-size: 20px;
   color: rgba(0, 0, 0, 0.87);
   background-color: #ffffff;
 
@@ -21,23 +21,48 @@
   font-family: Teko; 
   font-size: large;
 }
+nav {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 50px 50px;
+
+}
+.nav-links {
+  grid-area: 1 / 2 / 2 / 3;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+}
 
 nav > p {
-  font-size: 20px;
+  padding-top: 8px;
+  font-size: 23px;
   font-weight: 500;
+  align-self: center;
 }
 nav > p > span {
   font-weight: 250;
 }
-
-a {
+hr {
+  border: 0.95px solid;
+  grid-row: 2 / 3;
+  grid-column: span 2;
+  width: 100%;
+  height: 0px;
+}
+.nav-links button {
+  padding: 4px 8px;
+  margin: 10px 25px;
+  text-align: center;
+}
+ a {
   font-weight: 500;
-  color: #fca311;
+  color: #3D210A;
   text-decoration: inherit;
 }
 a:hover {
-  color: #fca311;
-}
+  color: #712A12;
+} 
 
 body {
   margin: 0;
@@ -51,7 +76,7 @@ h1 {
 button {
   border-radius: 8px;
   border: 2px solid transparent;
-  padding: 0.6em 1.2em;
+  padding: 0.3em 0.6em;
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;

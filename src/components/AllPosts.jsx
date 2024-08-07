@@ -43,52 +43,56 @@ export default function AllPosts() {
   else
     return (
       <>
-        <DialogBox
-          title={posts[postToDeleteIndex].title}
-          name={capitalizeName(posts[postToDeleteIndex].authorName)}
-          post={posts[postToDeleteIndex]._id}
-          postIndex={postToDeleteIndex}
-          handleModal={handleModal}
-          date={DateTime.fromISO(posts[postToDeleteIndex].date).toFormat(
-            "MMMM dd, yyyy"
-          )}
-          dialogRef={dialogRef}
-        />
-        <aside>
-          <Link to="create">
-            <p>
-              <strong>Create Post</strong>
-            </p>
-          </Link>
-        </aside>{" "}
-        <article className="posts-container">
-          {" "}
-          <h2>All Posts</h2>
-          {posts.map((post, index) => {
-            const formattedDate = DateTime.fromISO(post.date).toFormat(
+        <div className="all-posts">
+          <DialogBox
+            title={posts[postToDeleteIndex].title}
+            name={capitalizeName(posts[postToDeleteIndex].authorName)}
+            post={posts[postToDeleteIndex]._id}
+            postIndex={postToDeleteIndex}
+            handleModal={handleModal}
+            date={DateTime.fromISO(posts[postToDeleteIndex].date).toFormat(
               "MMMM dd, yyyy"
-            );
-            const formattedName = capitalizeName(post.authorName);
+            )}
+            dialogRef={dialogRef}
+          />
+          <article className="posts-container">
+            {" "}
+            <h2>All Posts</h2>
+            {posts.map((post, index) => {
+              const formattedDate = DateTime.fromISO(post.date).toFormat(
+                "MMMM dd, yyyy"
+              );
+              const formattedName = capitalizeName(post.authorName);
 
-            return (
-              <>
-                <article key={post._id}>
-                  <h2>{post.title}</h2>
-                  <h5>by {formattedName}</h5>
-                  <h6>{formattedDate}</h6>
-                  <div className="article-buttons">
-                    <button onClick={() => handleArticleEditClick(post._id)}>
-                      Edit
-                    </button>
-                    <button onClick={() => handleModal(false, index)}>
-                      Delete
-                    </button>
-                  </div>
-                </article>
-              </>
-            );
-          })}{" "}
-        </article>{" "}
+              return (
+                <>
+                  <article key={post._id}>
+                    <h3>{post.title}</h3>
+                    <h5>by {formattedName}</h5>
+                    <h6>{formattedDate}</h6>
+                    <div className="article-buttons">
+                      <button onClick={() => handleArticleEditClick(post._id)}>
+                        Edit
+                      </button>
+                      <button onClick={() => handleModal(false, index)}>
+                        Delete
+                      </button>
+                    </div>
+                    <hr className="article-divider"/>
+                  </article>
+                </>
+              );
+            })}{" "}
+          </article>{" "}
+          <hr className="divider"/>
+          <aside>
+            <Link to="create">
+              <p>
+                <strong>Create Post</strong>
+              </p>
+            </Link>
+          </aside>{" "}
+        </div>
       </>
     );
 }

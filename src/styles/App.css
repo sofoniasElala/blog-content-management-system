@@ -3,12 +3,41 @@
   display: flex;
   flex-direction: column;
   height: 100%;
+  position: relative;
 }
 
 main {
   margin: auto;
   height: calc(100vh - 250px); /* check second operator when changing value */
-  padding-top: 150px;
+}
+
+.all-posts {
+  display: flex;
+  width: calc(100vw  - 80px);
+  
+}
+
+.all-posts hr.divider {
+  height: 100px;
+  width: auto;
+  margin: 12px;
+}
+
+aside a, .divider {
+  position: sticky;
+  top: 40px;
+}
+
+.all-posts button {
+  margin: 0px 15px 0px 0px;
+}
+
+.posts-container {
+  width: calc(100vw - 200px);
+}
+
+article h3, article h5, article h6, dialog h3, dialog h4, dialog h5 {
+  margin: 15px 0px 15px 5px;
 }
 
 form#login, form#login > div {
@@ -19,6 +48,10 @@ form#login, form#login > div {
 
 form#login > div, form#login button {
   margin: 10px 0px;
+}
+
+form#login {
+  padding-top: 150px;
 }
 
 #login-paragraph {
@@ -34,10 +67,6 @@ form#login input {
   border-radius: 8px;
   border-color: rgb(24, 13, 13);
   border-style: solid;
-}
-
-hr {
-  border: 0.95px solid;
 }
 .error {
   color: #c1121f;

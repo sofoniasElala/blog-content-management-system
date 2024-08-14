@@ -93,6 +93,7 @@ button:focus-visible {
   outline: 10px auto -webkit-focus-ring-color;
 }
 input:focus-visible {
-  outline-color: #b49479;
+  outline-style: none;
+  box-shadow: 0 2px 0 0 #1a1a1a;
 }
 

@@ -45,11 +45,12 @@ export default  function CreatePost(){
             <label className="displayImage">{"Display Image Owner: "}
             <input type="text" name="imageOwner" className="imageOwner_input" />
             </label>
-            <label htmlFor="tag-select">{"Tags: "}</label>
+            <label htmlFor="tag-select">{"Tag: "}
             <select name="tag" id="tag-select">
                 <option value="">--Please choose an option</option>
                 {tags.map((tag) => <option key={tag._id} value={tag._id}>{tag.name}</option> )}
             </select>
+            </label>
             <label className="publish">
             <input type="checkbox" name="published" className="publish" />
             {" Publish"}

@@ -50,11 +50,9 @@ form#login > div, form#login button {
   margin: 10px 0px;
 }
 
-form#login {
-  padding-top: 150px;
-}
 
 #login-paragraph {
+  padding-top: 100px;
   font-size: 36px;
   margin: 12px auto;
 }
@@ -70,6 +68,43 @@ form#login input {
 }
 .error {
   color: #c1121f;
+}
+
+.create-form {
+  display: flex;
+  flex-direction: column;
+  width: calc(100vw  - 80px);
+  font-size: 23px;
+  gap: 15px;
+  padding-bottom: 100px;
+}
+.create-form input {
+  width: 300px;
+  height: 25px;
+  padding-left: 10px;
+  font-family: inherit;
+  font-size: 20px;
+  font-weight: 250;
+  border-style: none none solid;
+}
+select {
+  font-family: inherit;
+  font-size: 18px;
+}
+textarea {
+  width: calc(100vw - 120px);
+  padding: 10px;
+  height: 250px;
+  resize: none;
+}
+
+.publish input {
+  width: auto;
+  height: 15px;
+}
+.create-form button {
+  padding: 4px 8px;
+  align-self: flex-start;
 }
 /* .logo {
   height: 6em;

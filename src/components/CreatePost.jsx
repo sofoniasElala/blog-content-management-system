@@ -1,9 +1,11 @@
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { getAllTags, createPostDB, notificationPopUp } from "../utils";
+import RichTextEditor from "./Editor";
 
 export default  function CreatePost(){
     const [tags, setTags] = useState([]);
     const [submitted, setSubmitted] = useState({status: false, id: null});
+    const editorRef = useRef(null);
 
     useEffect(() => {
         async function getTags(){
@@ -16,6 +18,7 @@ export default  function CreatePost(){
     async function handleSubmission(newPostFormData){
         const postData = Object.fromEntries(newPostFormData);
         postData.date = new Date();
+        postData.text = editorRef.current.getContent();
 
        const newPostApiCall = createPostDB(postData); //TODO: navigate to the post
        const newPost = await notificationPopUp(newPostApiCall, {pending: 'Creating post...', success: 'Post created'}, 3000);
@@ -37,7 +40,7 @@ export default  function CreatePost(){
             <input type="text" name="authorName" className="author_input" />
             </label>
             <label className="content">{"Body: "}
-            <textarea name="text" className="content_input"></textarea>
+            <RichTextEditor editorRef={editorRef}/>
             </label>
             <label className="displayImage">{"Display Image Link: "}
             <input type="text" name="image" className="imageLink_input" />

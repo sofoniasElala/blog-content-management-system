@@ -2,11 +2,6 @@ import PropTypes from 'prop-types';
 import { Editor } from '@tinymce/tinymce-react';
 
 export default function RichTextEditor({editorRef}) {
- /* const log = () => {
-    if (editorRef.current) {
-      console.log(editorRef.current.getContent());
-    }
-  }; */
   return (
     <>
       <Editor

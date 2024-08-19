@@ -1,7 +1,8 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { getSpecificPost, getAllTags, deleteComment, updatePost, notificationPopUp} from "../utils";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { DateTime } from "luxon";
+import RichTextEditor from "./Editor";
 
 function getFormattedDate(isoDate){
     const today = DateTime.now();
@@ -20,6 +21,7 @@ export default function EditPost() {
   const [tags, setTags] = useState([]);
   const { postId } = useParams();
   const navigate = useNavigate();
+  const editorRef = useRef(null);
 
   useEffect(() => {
     async function getPost() {
@@ -33,6 +35,10 @@ export default function EditPost() {
     }
     getPost();
   }, [postId]);
+
+  useEffect(() => {
+   if(editorRef.current) editorRef.current.setContent(postToEdit.post.text);
+  }, [postToEdit]);
 
   async function deleteCommentClick(commentId){
     const deleteCommentApiCall =  deleteComment(postToEdit.post._id, commentId);
@@ -79,11 +85,7 @@ export default function EditPost() {
           </label>
           <label className="content">
             {"Body: "}
-            <textarea
-              name="text"
-              className="content_input"
-              defaultValue={postToEdit.post.text}
-            ></textarea>
+            <RichTextEditor editorRef={editorRef}/>
           </label>
           <label className="displayImage">
             {"Display Image Link: "}
@@ -103,7 +105,7 @@ export default function EditPost() {
               defaultValue={postToEdit.post.imageOwner}
             />
           </label>
-          <label htmlFor="tag-select">{"Tags: "}</label>
+          <label htmlFor="tag-select">{"Tags: "}
           <select
             name="tag"
             id="tag-select"
@@ -118,6 +120,7 @@ export default function EditPost() {
               </option>
             ))}
           </select>
+          </label>
           <label className="publish">
             <input
               type="checkbox"

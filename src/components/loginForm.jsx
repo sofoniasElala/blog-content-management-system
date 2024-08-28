@@ -44,7 +44,7 @@ export default function LogInForm() {
           type="text"
           name="username"
           id="username"
-          defaultValue={inputs && inputs.username}
+          defaultValue={(inputs && inputs.username) || 'demo'}
           required
         />
       </div>
@@ -54,7 +54,7 @@ export default function LogInForm() {
           type="password"
           name="password"
           id="password"
-          defaultValue={inputs && inputs.password}
+          defaultValue={(inputs && inputs.password) || 'demoPassword'}
           required
         />
       </div>

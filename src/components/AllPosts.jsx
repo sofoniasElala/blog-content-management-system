@@ -55,7 +55,7 @@ export default function AllPosts() {
             )}
             dialogRef={dialogRef}
           />
-          <article className="posts-container">
+          <section className="posts-container">
             {" "}
             <h2>All Posts</h2>
             {posts.map((post, index) => {
@@ -83,7 +83,7 @@ export default function AllPosts() {
                 </>
               );
             })}{" "}
-          </article>{" "}
+          </section>{" "}
           <hr className="divider"/>
           <aside>
             <Link to="create">

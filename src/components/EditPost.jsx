@@ -3,6 +3,7 @@ import { getSpecificPost, getAllTags, deleteComment, updatePost, notificationPop
 import { useEffect, useState, useRef } from "react";
 import { DateTime } from "luxon";
 import RichTextEditor from "./Editor";
+import trash from '/trash-solid.svg';
 
 function getFormattedDate(isoDate){
     const today = DateTime.now();
@@ -49,6 +50,7 @@ export default function EditPost() {
   async function handleSubmission(newPostFormData){
     const postData = Object.fromEntries(newPostFormData);
     postData.date = new Date();
+    postData.text = editorRef.current.getContent();
 
    const updatePostApiCall = updatePost(postData, postToEdit.post._id); //TODO: navigate to the post + maybe dialog box to show submission success
    await notificationPopUp(updatePostApiCall, {pending: 'Updating post...', success: 'Post updated'}, 3000);
@@ -85,7 +87,7 @@ export default function EditPost() {
           </label>
           <label className="content">
             {"Body: "}
-            <RichTextEditor editorRef={editorRef}/>
+            <RichTextEditor editorRef={editorRef} postToEdit={postToEdit}/>
           </label>
           <label className="displayImage">
             {"Display Image Link: "}
@@ -132,16 +134,14 @@ export default function EditPost() {
           </label>
           <button type="submit">Update Post</button>
         </form>
-        <hr />
+        <hr  className="hr-edit-divder"/>
         <h3>Comments</h3>
         {postToEdit.allCommentsOnPost.length > 0 ? (
           postToEdit.allCommentsOnPost.map(comment => {
            return <div className="comment" key={comment._id} >
-            <h4>{comment.author.username} • {getFormattedDate(comment.date)}</h4>
+            <h5>{comment.author.username} • {getFormattedDate(comment.date)} <img src={trash} width='20px' onClick={() => deleteCommentClick(comment._id)}  alt="delete comment"/></h5>
             <p>{comment.text}</p>
-            <div className="comment-buttons">
-                <button onClick={() => deleteCommentClick(comment._id)} >Delete</button>
-            </div>
+            <hr />
             </div>
           })
         ) : (

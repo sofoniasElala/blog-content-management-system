@@ -22,9 +22,15 @@
   font-size: large;
 }
 nav {
+  position: sticky;
+  top: 1px;
+  background-color: #ffffff;
+
+  z-index: 3;
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 50px 50px;
+  width: calc(100vw  - 80px);
 
 }
 .nav-links {
@@ -65,6 +71,9 @@ a:hover {
 } 
 
 body {
+  display: flex;
+  justify-content: center;
+  align-items: center; 
   margin: 0;
 }
 
@@ -94,5 +103,9 @@ button:focus-visible {
 }
 input:focus-visible {
   outline-style: none;
+}
+
+footer {
+  text-align: center;
 }
 

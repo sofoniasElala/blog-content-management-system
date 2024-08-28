@@ -1,12 +1,13 @@
 import PropTypes from 'prop-types';
 import { Editor } from '@tinymce/tinymce-react';
 
-export default function RichTextEditor({editorRef}) {
+export default function RichTextEditor({editorRef , postToEdit}) {
   return (
     <>
       <Editor
         apiKey={import.meta.env.VITE_TINYMCE_KEY}
         onInit={(evt, editor) => editorRef.current = editor}
+        value={postToEdit && postToEdit.post.text}
         init={{
           height: 500,
           plugins: [
@@ -26,4 +27,5 @@ export default function RichTextEditor({editorRef}) {
 
 RichTextEditor.propTypes = {
     editorRef: PropTypes.object,
+    postToEdit: PropTypes.object
 }

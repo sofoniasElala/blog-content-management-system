@@ -19,6 +19,7 @@ function App() {
     <main>
       <Outlet context={[justLoggedIn, setJustLoggedIn]}/>
     </main>
+    <footer>Copyright © <span id="date"></span> SofoniasElala  <a href="https://github.com/sofoniasElala/blog_rest_api"><i className="fa-brands fa-github" style={{color: "#000000"}}></i></a></footer>
     </>
   )
 }

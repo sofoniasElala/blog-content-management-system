@@ -7,7 +7,7 @@ export default function RichTextEditor({editorRef , postToEdit}) {
       <Editor
         apiKey={import.meta.env.VITE_TINYMCE_KEY}
         onInit={(evt, editor) => editorRef.current = editor}
-        value={postToEdit && postToEdit.post.text}
+        initialValue={postToEdit && postToEdit.post.text}
         init={{
           height: 500,
           plugins: [

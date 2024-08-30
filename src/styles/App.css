@@ -41,6 +41,13 @@ article h3, article h5, article h6, dialog h3, dialog h4, dialog h5 {
   margin: 15px 0px 15px 5px;
 }
 
+article h6{
+  margin-top: 5px;
+}
+article h5{
+  margin-bottom: 5px;
+}
+
 form#login, form#login > div {
   display: flex;
   flex-direction: column;

@@ -10,7 +10,7 @@ function getFormattedDate(isoDate){
     const commentDate = DateTime.fromISO(isoDate);
     const timeDiff = today.diff(commentDate, ['months', 'days', 'hours', 'minutes']).toObject();
     for(const time in timeDiff ){
-        if(timeDiff[time] > 0) return `${timeDiff[time]} ${timeDiff[time] > 1 ? time : time.slice(0, time.length -1)} ago`;
+        if(timeDiff[time] > 0) return `${Math.floor(timeDiff[time])} ${timeDiff[time] > 1 ? time : time.slice(0, time.length -1)} ago`;
     }
     return `less than a minute ago`;
   }

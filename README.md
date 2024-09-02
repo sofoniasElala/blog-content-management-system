@@ -5,7 +5,10 @@
 The login fields are pre-filled with a demo account for ease of access, as this project is for demonstration purposes only.
 
 ## Description
-#### ***My Blog CMS*** is a content management system tailored for managing blog content. It enables the blogger to create, edit, and delete blog posts, as well as remove comments. This CMS includes a rich text editor with real-time preview, among other features. It also includes authentication to ensure secure access, as expected in any CMS.
+#### ***My Blog CMS*** is a content management system tailored for managing ***My Blog*** content. It enables the blogger to create, edit, and delete blog posts, as well as remove comments. This CMS includes a rich text editor with real-time preview, among other features. It also includes authentication to ensure secure access, as expected in any CMS.
+
+## Links to the other ***My Blog*** repos
+ * [![Static Badge](https://img.shields.io/badge/Rest%20API-green)](https://github.com/sofoniasElala/blog_rest_api)
 
 ## TODOs 
  * remove localhost from allow list on the rest api repo

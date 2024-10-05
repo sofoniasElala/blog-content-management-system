@@ -1,11 +1,13 @@
 import { useEffect, useRef, useState } from "react"
 import { getAllTags, createPostDB, notificationPopUp } from "../utils";
 import RichTextEditor from "./Editor";
+import { useNavigate } from "react-router-dom";
 
 export default  function CreatePost(){
     const [tags, setTags] = useState([]);
     const [submitted, setSubmitted] = useState({status: false, id: null});
     const editorRef = useRef(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
         async function getTags(){
@@ -22,10 +24,10 @@ export default  function CreatePost(){
 
        const newPostApiCall = createPostDB(postData); //TODO: navigate to the post
        const newPost = await notificationPopUp(newPostApiCall, {pending: 'Creating post...', success: 'Post created'}, 3000);
-       setSubmitted({status: true, id: newPost.id});
+       setSubmitted({status: true, id: newPost.id, published: postData.published});
     }
 
-    if(submitted.status) return <p>{submitted.id}</p>
+    if(submitted.status) return <button onClick={() => {submitted.published == 'on' ? window.open(`https://sofonias-elala-myblog-main.netlify.app/posts/${submitted.id}`, '_blank') : navigate('/home/posts')}} >{submitted.published == 'on' ? 'open post in new tab' : 'see all posts'}</button>
     else
     return (
         <form className="create-form" onSubmit={(e) => {

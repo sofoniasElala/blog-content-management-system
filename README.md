@@ -1,6 +1,6 @@
 # My Blog - Content Management System
 
-[![Static Badge](https://img.shields.io/badge/Live%20Demo-blue)](https://sofonias-elala-myblog-cms.netlify.app/) [![Netlify Status](https://api.netlify.com/api/v1/badges/30f41b25-26ec-43e4-ab09-be50a001efa3/deploy-status)](https://app.netlify.com/sites/sofonias-elala-myblog-cms/deploys)
+[![Static Badge](https://img.shields.io/badge/Live%20Demo-blue)](https://sofonias-elala-myblog-main.netlify.app/) [![Netlify Status](https://api.netlify.com/api/v1/badges/30f41b25-26ec-43e4-ab09-be50a001efa3/deploy-status)](https://app.netlify.com/sites/sofonias-elala-myblog-cms/deploys)
 
 The login fields are pre-filled with a demo account for ease of access, as this project is for demonstration purposes only.
 
@@ -9,10 +9,7 @@ The login fields are pre-filled with a demo account for ease of access, as this 
 
 ## Links to the other ***My Blog*** repos
  * [![Static Badge](https://img.shields.io/badge/Rest%20API-green)](https://github.com/sofoniasElala/blog_rest_api)
-
-## TODOs 
- * remove localhost from allow list on the rest api repo
- * button to open the new post on the main website in 'new window'
+ * [![Static Badge](https://img.shields.io/badge/Main%20Site-green)](https://github.com/sofoniasElala/my-blog-main)
 
 ## Screenshots
 ![Login-page](public/myBlog_cms_screenshot_1.png)

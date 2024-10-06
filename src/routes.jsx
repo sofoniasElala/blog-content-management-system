@@ -6,6 +6,7 @@ import CheckAuthentication from "./components/CheckAuthentication"
 import AllPosts from "./components/AllPosts"
 import EditPost from "./components/EditPost"
 import { redirect } from "react-router-dom"
+import NotFound from "./components/NotFound"
 
 const loggedInUserReRouter = () => {
     const localData = localStorage.getItem('blog-user');
@@ -49,6 +50,10 @@ const loggedInUserReRouter = () => {
             }
         ]
     },
+    {
+        path: '*',
+        element: <NotFound />,
+    }
 ]
 
 export default routes

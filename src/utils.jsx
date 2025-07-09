@@ -4,7 +4,7 @@ export async function handleAuth(justLoggedIn, setJustLoggedIn, loginData = null
     let response;
     try {
         if(!localStorage.getItem('blog-user')){
-            response = await fetch("https://sofonias-elala-blog-rest-api.glitch.me/log-in", { 
+            response = await fetch("https://blog-rest-api-69fz.onrender.com/log-in", { 
                 method: 'POST',
                 headers: {"Content-Type": "application/json" },
                 body: JSON.stringify(loginData)
@@ -24,7 +24,7 @@ export async function handleAuth(justLoggedIn, setJustLoggedIn, loginData = null
 
 export async function createPostDB(postData){
     try {
-    const response = await fetch("https://sofonias-elala-blog-rest-api.glitch.me/posts", {
+    const response = await fetch("https://blog-rest-api-69fz.onrender.com/posts", {
         method: 'POST',
         headers: {
             "Content-Type": "application/json",
@@ -41,7 +41,7 @@ export async function createPostDB(postData){
 
 export async function getAllPosts(){
     try {
-        const response = await fetch("https://sofonias-elala-blog-rest-api.glitch.me/all", {
+        const response = await fetch("https://blog-rest-api-69fz.onrender.com/all", {
             headers: {
                 "Content-Type": "application/json",
                 "Authorization": JSON.parse(localStorage.getItem('blog-user')).jwt,
@@ -56,7 +56,7 @@ export async function getAllPosts(){
 
 export async function getAllTags(){
     try {
-        const response = await fetch("https://sofonias-elala-blog-rest-api.glitch.me/tags");
+        const response = await fetch("https://blog-rest-api-69fz.onrender.com/tags");
         const data = await response.json();
         return data.allTags;
     } catch(error) {
@@ -67,7 +67,7 @@ export async function getAllTags(){
 
 export async function deleteComment(postId, commentId){
     try {
-       const response = await fetch(`https://sofonias-elala-blog-rest-api.glitch.me/posts/${postId}/comments/${commentId}`, {
+       const response = await fetch(`https://blog-rest-api-69fz.onrender.com/posts/${postId}/comments/${commentId}`, {
             method: 'DELETE',
             headers: {
                 "Content-Type": "application/json",
@@ -83,7 +83,7 @@ export async function deleteComment(postId, commentId){
 
 export async function updatePost(postData, id) {
     try {
-       const response = await fetch(`https://sofonias-elala-blog-rest-api.glitch.me/posts/${id}`, {
+       const response = await fetch(`https://blog-rest-api-69fz.onrender.com/posts/${id}`, {
            method: 'PUT',
            headers: {
                "Content-Type": "application/json",
@@ -100,7 +100,7 @@ export async function updatePost(postData, id) {
 
 export async function deletePost(id){
     try {
-      const response =   await fetch(`https://sofonias-elala-blog-rest-api.glitch.me/posts/${id}`, {
+      const response =   await fetch(`https://blog-rest-api-69fz.onrender.com/posts/${id}`, {
             method: 'DELETE',
             headers: {
                 "Content-Type": "application/json",
@@ -116,7 +116,7 @@ export async function deletePost(id){
 
 export async function getSpecificPost(id){
     try {
-        const response = await fetch(`https://sofonias-elala-blog-rest-api.glitch.me/posts/${id}`);
+        const response = await fetch(`https://blog-rest-api-69fz.onrender.com/posts/${id}`);
         const data = await response.json();
         return data;
     } catch(error) {
